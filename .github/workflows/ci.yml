@@ -1,0 +1,22 @@
+# Mirrors pingdotgg/t3code#28183: a quick required check, and a required
+# aggregate job that GitHub only creates once its `needs:` finish.
+name: CI
+on:
+  pull_request:
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "quick check passes"
+  slow:
+    name: slow
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep 150
+  done:
+    name: Done
+    needs: [slow]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "all slow jobs passed"
